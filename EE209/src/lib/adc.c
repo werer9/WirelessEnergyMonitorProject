@@ -7,7 +7,12 @@
 
 #include "adc.h"
 
-uint8_t read_adc(uint8_t channel)
+uint16_t calculate_original_value(uint8_t bit_count, uint16_t max_val, uint16_t min_val, uint16_t adc_val)
+{
+	return (adc_val/(2^bit_count - 1) * (max_val - min_val)) + min_val;
+}
+
+uint16_t read_adc(uint8_t channel)
 {
 	ADMUX &= 0xF0;
 	ADMUX |= channel;
