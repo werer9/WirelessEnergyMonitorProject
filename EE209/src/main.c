@@ -14,9 +14,12 @@
 int main(void)
 {
     uart_init(UBBR_SETTING);
+	adc_init();
+	uint16_t data;
     while (1) 
     {
-		uart_write_line("EE209");
+		data = read_adc(0);
+		uart_write_line(calculate_original_value(8, 5000, 0));
     }
 }
 
