@@ -19,7 +19,7 @@ int main(void)
     while (1) 
     {
 		data = read_adc(0);
-		uart_write_line(calculate_original_value(8, 5000, 0));
+		uart_write_line(calculate_original_value(8, 5000, 0, data));
     }
 }
 
