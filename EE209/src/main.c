@@ -25,14 +25,12 @@ int main(void)
     while (1) 
     {
 		data = read_adc_mv(0);
-		uart_write_line("Channel 0:");
 		snprintf(output, 255, "%u", data);
-		uart_write_line(output);
+		uart_write(output);
+		uart_write(" ");
 		data = read_adc_mv(1);
-		uart_write_line("Channel 1:");
 		snprintf(output, 255, "%u", data);
 		uart_write_line(output);
-		_delay_ms(1000);
     }
 }
 
