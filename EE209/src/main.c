@@ -9,21 +9,30 @@
 #include "lib/config.h"
 // uart driver
 #include "lib/uart.h"
+#include "lib/adc.h"
+#include <util/delay.h>
+#include <stdio.h>
 
 
 int main(void)
 {
     uart_init(UBBR_SETTING);
 	adc_init();
-	uint16_t data;
+	DDRC |= 0xFF;
+	DDRC &= ~(1<<PC0) & ~(1<<PC1);
+	uint16_t data = 0;
+	char output[255] = "";
     while (1) 
     {
-		data = read_adc(0);
+		data = read_adc_mv(0);
 		uart_write_line("Channel 0:");
-		uart_write_line(calculate_original_value(8, 5000, 0, data));
-		data = read_adc(1);
-		uart_write_line("Channel 1:")
-		uart_write_line(calculate_original_value(8, 5000, 0, data));
+		snprintf(output, 255, "%u", data);
+		uart_write_line(output);
+		data = read_adc_mv(1);
+		uart_write_line("Channel 1:");
+		snprintf(output, 255, "%u", data);
+		uart_write_line(output);
+		_delay_ms(1000);
     }
 }
 
