@@ -142,6 +142,12 @@
     <Compile Include="src\lib\config.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\lib\timer_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\timer_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\lib\uart.c">
       <SubType>compile</SubType>
     </Compile>
