@@ -38,14 +38,23 @@ int main(void)
 		//uart_write_line(output);
     //}
 	
-	DDRB = 0xFF;
-	timer0_init();
+	uart_init(UBBR_SETTING);
+	timer1Init();
+	uint16_t time;
+	char timeStr[255];
+	
 	sei();
 	
 	while (1) {
 		//if (timer0_checkAndClearOverflow()) {
 			//PORTB |= (1<<PINB5);
 		//}
+		//time = calculateTime1(1024);
+		time = timer1OverFlowCount;
+		snprintf(timeStr, 255, "%u", time);
+		uart_write_line(timeStr);
+		//_delay_ms(1000);
+		//_delay_ms(1000);
 	}
 }
 
