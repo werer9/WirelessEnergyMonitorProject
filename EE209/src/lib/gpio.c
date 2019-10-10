@@ -7,7 +7,7 @@
 
 #include "gpio.h"
 
-void gpio_init()
+void io_init()
 {
 
 //Set all PORTC pins as inputs

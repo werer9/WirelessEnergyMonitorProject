@@ -12,7 +12,7 @@
 #ifndef GPIO_H_
 #define GPIO_H_
 
-void gpio_init();
+void io_init();
 
 
 #endif
