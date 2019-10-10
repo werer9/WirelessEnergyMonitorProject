@@ -10,6 +10,11 @@ uint16_t calculateUBRR(uint16_t baud)
 	return (uint16_t)(F_CPU/(16*(unsigned long)baud) - 1);
 }
 
+void get_uart_string(uint16_t val, char *string, char ident)
+{
+	sprintf(string, "%c=%02d.%02d\n", ident, val/100, val%100);
+}
+
 // convert adc value to real value
 uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits)
 {

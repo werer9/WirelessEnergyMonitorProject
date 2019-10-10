@@ -15,46 +15,35 @@
 // timer driver
 #include "lib/timer_driver.h"
 
-#include <util/delay.h>
-#include <stdio.h>
+// interrupt handler
+#include "lib/interrupt.h"
 
+// processing functions
+#include "lib/processing.h"
 
-int main(void)
+// finite state machines
+#include "lib/fsm.h"
+
+int main(void) 
 {
-    //uart_init(UBBR_SETTING);
-	//adc_init();
-	//DDRC |= 0xFF;
-	//DDRC &= ~(1<<0) & ~(1<<1);
-	//uint16_t data = 0;
-	//char output[255] = "";
-    //while (1) 
-    //{
-		//data = read_adc_mv(0);
-		//snprintf(output, 255, "%u", data);
-		//uart_write(output);
-		//uart_write(" ");
-		//data = read_adc_mv(1);
-		//snprintf(output, 255, "%u", data);
-		//uart_write_line(output);
-    //}
+	// create function pointer struct
+	struct functionPointers funcs = {
+		.uart_init = uart_init,
+		.io_init = 0,
+		.adc_init = adc_init,
+		.int_init = interrupt_init,
+		.get_uart_string = get_uart_string,
+		.uart_write = uart_write,
+		.disable_interrupts = disable_interrupts,
+		.enable_interrupts = enable_interrupts,
+		.read_adc = read_adc_mv,
+		.get_time = 0,
+	};
 	
-	uart_init(UBBR_SETTING);
-	timer1Init();
-	uint16_t time;
-	char timeStr[255];
 	
-	sei();
+	// init fsm by passing structs to it
+	fsmInit(&funcs);
 	
-	while (1) {
-		//if (timer0_checkAndClearOverflow()) {
-			//PORTB |= (1<<PINB5);
-		//}
-		//time = calculateTime1(1024);
-		time = timer1OverFlowCount;
-		snprintf(timeStr, 255, "%u", time);
-		uart_write_line(timeStr);
-		//_delay_ms(1000);
-		//_delay_ms(1000);
-	}
+	return run();
 }
 
