@@ -7,19 +7,37 @@
 
 #include "adc.h"
 
-uint8_t read_adc(uint8_t channel)
+
+uint16_t read_adc_mv(uint8_t channel)
 {
+	// disable interrupts during conversion
+	cli();
+	// clear ADMUX
 	ADMUX &= 0xF0;
+	// set least significant 4 bits to channel
 	ADMUX |= channel;
+	// start conversion
 	ADCSRA |= (1<<ADSC);
+	// wait until conversion is finished
 	while (ADCSRA & (1<<ADSC));
-	return ADCH;
+	
+	// read full 10 bits of ADC registers
+	uint16_t adc_output = ADCW;
+	// convert reading into millivolts
+	uint32_t mv = (uint32_t)adc_output * ((uint32_t)5000/1023);
+	
+	// enable interrupts when conversion is finished
+	sei();
+	return (uint16_t)mv;
 }
 
 void adc_init() 
 {
-	ADMUX |= (1<<REFS0) | (1<<ADLAR);
+	// set ADMUX to read from VCC
+	ADMUX |= (1<<REFS0);
 	ADMUX &= ~(1<<REFS1);
-	ADMUX &= ~(1<<MUX3) | ~(1 << MUX2) | ~(1<<MUX1) | ~(1<<MUX0);
+	// clear channel selection
+	ADMUX &= 0xF0;
+	// enable conversions, scale by system clock by 128
 	ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADSC);
 }

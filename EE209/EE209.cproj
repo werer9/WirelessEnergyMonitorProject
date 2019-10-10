@@ -40,6 +40,20 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>
+    </avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E950F</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -127,6 +141,36 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\lib\config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\fsm.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\fsm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\interrupt.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\interrupt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\processing.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\processing.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\processing_numerical.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\processing_numerical.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\timer_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\timer_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\lib\uart.c">
