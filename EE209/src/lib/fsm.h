@@ -18,6 +18,7 @@ struct functionPointers {
     void (*uart_init)(uint16_t baud);
     void (*io_init)(void);
     void (*adc_init)(void);
+	void (*timer_init)(void);
     void (*int_init)(uint16_t voltageTriggers, uint16_t currentTriggers, uint8_t size, uint16_t (*get_time)(void));
     void (*get_uart_string)(uint16_t val, char *string, char ident);
     void (*uart_write)(char* data_string);
