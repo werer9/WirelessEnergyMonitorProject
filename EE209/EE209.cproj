@@ -149,6 +149,12 @@
     <Compile Include="src\lib\fsm.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\lib\gpio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lib\gpio.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\lib\interrupt.c">
       <SubType>compile</SubType>
     </Compile>

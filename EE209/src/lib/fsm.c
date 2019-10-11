@@ -65,7 +65,9 @@ void stateInit()
 // read power state
 void stateReadPower()
 {
-    // enable interrupts
+    // enable interrupts and reset timer
+	functions->timer_reset();
+	functions->timer_init();
     functions->enable_interrupts();
     // loop until voltages and currents full
     for (int i = 0; i < SIZE; i++) {
@@ -89,18 +91,18 @@ void stateReadPower()
 void stateCalculatePower()
 {  
     // calculate peak, RMS
-    values.peakVoltage = findPeak(values.voltages, SIZE);
-    values.peakCurrent = findPeak(values.currents, SIZE);
-    values.voltage = calculateRMS(values.peakVoltage);
-    values.current = calculateRMS(values.peakCurrent);
+    values.peakVoltage = functions->find_peak(values.voltages, SIZE);
+    values.peakCurrent = functions->find_peak(values.currents, SIZE);
+    values.voltage = functions->calculate_RMS(values.peakVoltage);
+    values.current = functions->calculate_RMS(values.peakCurrent);
 
     // calculate phase of two signals
-    values.phase = getPhaseDifference(values.voltageTriggerTimes, voltageTriggerIndex,
+    values.phase = functions->get_phase_difference(values.voltageTriggerTimes, voltageTriggerIndex,
             values.currentTriggerTimes, currentTriggerIndex);
     
     // place holder phase
-    values.pf = calculatePowerFactor(values.phase);
-    values.power = calculateAveragePower(values.voltage, 
+    values.pf = functions->calculate_power_factor(values.phase);
+    values.power = functions->calculate_average_power(values.voltage, 
             values.current, values.pf);
     
     // start iterating over the trigger arrays from zero

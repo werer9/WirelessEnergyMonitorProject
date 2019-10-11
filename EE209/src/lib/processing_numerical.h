@@ -2,6 +2,10 @@
 
 // include maths functions and uint8_t datatype for microcontroller
 // efficiency
+
+#ifndef PROCESSING_NUMERICAL_H_
+#define PROCESSING_NUMERICAL_H_
+
 #include "config.h"
 #include <math.h>
 #include <stdint.h>
@@ -23,3 +27,5 @@ uint16_t get_current_rms(uint16_t voltageRMS, uint16_t shunt_val);
 
 // calculates the average/real power
 uint16_t get_avg_power(uint16_t vRMS, uint16_t iRMS, uint16_t pf);
+
+#endif /* PROCESSING_NUMERICAL_H_ */

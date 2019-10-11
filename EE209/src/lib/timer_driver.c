@@ -29,6 +29,7 @@ void resetTimer()
 {
 	// clear the timer counter
 	TCNT1 = 0;
+	resetTimerOverflowCount();
 	// resets the timer overflow count
 	//timerOverFlowCount = 0;
 }
@@ -50,11 +51,11 @@ uint16_t calculateTime(uint16_t scale)
 void resetTimerOverflowCount()
 {
 	// reset the overflow count
-	timer1OverFlowCount = 0;
+	timerOverFlowCount = 0;
 }
 
 uint16_t get_time()
 {
 	// returns the current timer count to the function caller
-	return calculateTime(256);
+	return calculateTime(TIMER_PRESCALER);
 }
