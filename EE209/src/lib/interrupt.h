@@ -21,9 +21,9 @@ struct interruptData {
 
 volatile struct interruptData data;
 
-void interrupt_handler(uint8_t interruptPin);
 void enable_interrupts();
 void disable_interrupts();
 void interrupt_init(uint16_t *voltageTriggers, uint16_t *currentTriggers, uint8_t size, uint16_t (*get_time)(void));
+void interrupt_handler(uint8_t interruptPin);
 
 #endif /* INTERRUPT_H_ */
