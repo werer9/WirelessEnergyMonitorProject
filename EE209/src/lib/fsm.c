@@ -1,6 +1,6 @@
 /*
 * Date: 26/9/19
-* Author: Caelan Murch
+* Author: Caelan Murch and Reeve D'Cunha
 * Description: Finite State Machine
 */
 
@@ -54,6 +54,8 @@ void stateInit()
     functions->io_init();
     // init adc
     functions->adc_init();
+    // init timer
+    functions->timer_init();
     // init interrupts
     functions->int_init(values.voltageTriggerTimes, values.currentTriggerTimes, SIZE, functions->get_time);
     // change state on function completion

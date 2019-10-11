@@ -2,29 +2,24 @@
  * timer_driver.h
  *
  * Created: 3/10/2019 9:50:32 PM
- *  Author: Caelan
+ *  Author: Reeve D'Cunha and Caelan Murch
  */ 
 
 #include "config.h"
-#include <math.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 #ifndef TIMER_DRIVER_H_
 #define TIMER_DRIVER_H_
 
-volatile uint16_t timer0OverFlowCount;
-volatile uint16_t timer1OverFlowCount;
+volatile uint16_t timerOverFlowCount;
 
-void timer0_init();
-uint8_t getTimer0Count();
-uint16_t calculateTime0(uint16_t scale);
-
-void timer1Init();
-void resetTimer1();
-uint16_t getTimer1Count();
-uint16_t calculateTime1(uint16_t scale);
-void resetTimer1OverflowCount();
+void timer_init();
+void resetTimer();
+uint16_t getTimerCount();
+uint16_t calculateTime(uint16_t scale);
+void resetTimerOverflowCount();
+uint16_t get_time();
 
 
 #endif /* TIMER_DRIVER_H_ */
