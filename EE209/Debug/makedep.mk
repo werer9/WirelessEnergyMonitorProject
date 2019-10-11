@@ -6,6 +6,8 @@ src\lib\adc.c
 
 src\lib\fsm.c
 
+src\lib\gpio.c
+
 src\lib\interrupt.c
 
 src\lib\processing.c

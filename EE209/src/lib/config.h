@@ -29,10 +29,13 @@
 // array size
 #define SIZE 50
 
-//range on wave corresponding to 50 points, size*2
+// timer prescaler
+#define TIMER_PRESCALER 256
+
+// range on wave corresponding to 50 points, size*2
 #define RANGE SIZE*2
 
-//shunt resistor value for current calculations
+// shunt resistor value for current calculations
 #define SHUNT_VAL 33
 
 // FSM STATES
