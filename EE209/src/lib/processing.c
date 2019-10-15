@@ -8,7 +8,7 @@
 
 void get_uart_string(uint16_t val, char *string, char ident)
 {
-	sprintf(string, "%c=%02d.%02d\n", ident, val/1000, val%1000);
+	sprintf(string, "%c=%02.2i.%02.2i\n", ident, val/1000, (val%1000)/10);
 }
 
 // convert adc value to real value
@@ -72,5 +72,5 @@ uint16_t calculatePowerFactor(uint16_t phase)
 uint16_t calculateAveragePower(uint16_t Vrms, uint16_t Irms, uint16_t pf)
 {
 	double p = (Vrms/1000 * Irms/1000 * pf/1000);
-	return (uint16_t)p*1000;
+	return (uint16_t)(p*1000);
 }
