@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include <stdint.h>
+#include <stdlib.h>
 
 // states represented by state, states define in config.h
 uint8_t state;
@@ -36,28 +37,23 @@ struct functionPointers {
 };
 
 // struct to store all values related to processing the data
-struct data {
-	uint16_t *voltages;
-	uint16_t *currents;
-	uint16_t *voltageTimes;
-    uint16_t *currentTimes;
-	uint16_t *voltageTriggerTimes;
-    uint16_t *currentTriggerTimes;
-	uint8_t triggerSize;
-	uint16_t peakVoltage;
-	uint16_t peakCurrent;
-	uint16_t voltage;
-	uint16_t current;
-	uint16_t phase;
-	int8_t pf;
-	uint16_t power;
-};
+uint8_t triggerSize;
+uint16_t peakVoltage;
+uint16_t peakCurrent;
+uint16_t voltage;
+uint16_t current;
+uint16_t phase;
+uint16_t pf;
+uint16_t power;
+uint16_t voltages[SIZE];
+uint16_t currents[SIZE];
+uint16_t voltageTimes[SIZE];
+uint16_t currentTimes[SIZE];
+uint16_t voltageTriggerTimes[SIZE];
+uint16_t currentTriggerTimes[SIZE];
 
 // global member functions struct
 struct functionPointers *functions;
-
-// global values struct
-struct data values;
 
 // current index for the trigger arrays
 uint8_t voltageTriggerIndex;

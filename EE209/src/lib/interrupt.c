@@ -2,7 +2,7 @@
  * interrupt.c
  *
  * Created: 10/10/2019 6:28:40 PM
- *  Author: Caelan
+ *  Author: Caelan Murch
  */ 
 
 #include "interrupt.h"
@@ -27,15 +27,15 @@ void disable_interrupts()
 	cli();
 }
 
-void interrupt_init(uint16_t *voltageTriggers, uint16_t *currentTriggers, uint8_t size, uint16_t (*get_time)(void))
+void interrupt_init(uint16_t *voltageTriggers, uint16_t *currentTriggers, uint8_t size, uint16_t (*get_time_ptr)(void))
 {
 	
-	data.voltageTriggers = voltageTriggers;
-	data.currentTriggers = currentTriggers;
-	data.size = size;
-	data.get_time = get_time;
-	data.currentIndex = 0;
-	data.voltageIndex = 0;
+	voltageTriggers = voltageTriggers;
+	currentTriggers = currentTriggers;
+	size = size;
+	get_time_func = get_time_ptr;
+	currentIndex = 0;
+	voltageIndex = 0;
 }
 
 void interrupt_handler(uint8_t interruptPin)
@@ -43,14 +43,14 @@ void interrupt_handler(uint8_t interruptPin)
 	switch (interruptPin)
 	{
 		case 0:
-			if (data.currentIndex == data.size)
+			if (currentIndex == size)
 				break;
-			data.currentTriggers[data.currentIndex++] = data.get_time();
+			currentTriggers[currentIndex++] = get_time_func();
 			break;
 		case 1:
-			if (data.voltageIndex == data.size)
+			if (voltageIndex == size)
 				break;
-			data.voltageTriggers[data.voltageIndex++] = data.get_time();
+			voltageTriggers[voltageIndex++] = get_time_func();
 			break;
 		default:
 			break;

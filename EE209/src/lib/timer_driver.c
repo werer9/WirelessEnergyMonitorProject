@@ -22,7 +22,9 @@ void timer_init()
 
 	//Enables Timer Overflow interrupt (probably won't need it)
 	TIMSK1 |= (1<<TOIE1);
-	sei();
+	
+	// initialise timer overflow count
+	timerOverFlowCount = 0;
 }
 
 void resetTimer()
@@ -44,7 +46,7 @@ uint16_t calculateTime(uint16_t scale)
 {
 	// set scale into time
 	double scaleFactor = scale * 1/F_CPU;
-	uint32_t time = (uint32_t)(getTimerCount() * scaleFactor + 65536 * scaleFactor * timerOverFlowCount*100);
+	uint32_t time = (getTimerCount() * scaleFactor + 65536 * scaleFactor * timerOverFlowCount*100);
 	return (uint16_t)time;
 }
 

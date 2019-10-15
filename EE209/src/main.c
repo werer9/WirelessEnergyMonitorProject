@@ -54,6 +54,6 @@ int main(void)
 	// init fsm by passing structs to it
 	fsmInit(&funcs);
 	
-	return run();
+	run();
 }
 

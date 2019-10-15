@@ -13,6 +13,15 @@ void fsmInit(struct functionPointers *fsmFunctions)
     state = STATE_INIT;
     voltageTriggerIndex = 0;
     currentTriggerIndex = 0;
+	
+	triggerSize = 0;
+	peakVoltage = 0;
+	peakCurrent = 0;
+	voltage = 0;
+	current = 0;
+	phase = 0;
+	pf = 0;
+	power = 0;
 }
 // main fsm function
 int run()
@@ -57,7 +66,7 @@ void stateInit()
     // init timer
     functions->timer_init();
     // init interrupts
-    functions->int_init(values.voltageTriggerTimes, values.currentTriggerTimes, SIZE, functions->get_time);
+    functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
     // change state on function completion
     state = STATE_READ_POWER;
 }
@@ -67,14 +76,13 @@ void stateReadPower()
 {
     // enable interrupts and reset timer
 	functions->timer_reset();
-	functions->timer_init();
+	//functions->timer_init();
     functions->enable_interrupts();
-    // loop until voltages and currents full
-    for (int i = 0; i < SIZE; i++) {
-        values.voltages[i] = functions->read_adc(VOLTAGE_PIN);
-        values.voltageTimes[i] = functions->get_time();
-        values.currents[i] = functions->read_adc(VOLTAGE_PIN);
-        values.currentTimes[i] = functions->get_time();
+    for (int8_t j = 0; j < SIZE; j++) {
+		voltages[j] = functions->read_adc(VOLTAGE_PIN);
+        //voltageTimes[j] = functions->get_time();
+        currents[j] = functions->read_adc(CURRENT_PIN);
+        //currentTimes[j] = functions->get_time();
     }
 
     // disable interrupts - prevent the trigger array from overflowing
@@ -91,19 +99,19 @@ void stateReadPower()
 void stateCalculatePower()
 {  
     // calculate peak, RMS
-    values.peakVoltage = functions->find_peak(values.voltages, SIZE);
-    values.peakCurrent = functions->find_peak(values.currents, SIZE);
-    values.voltage = functions->calculate_RMS(values.peakVoltage);
-    values.current = functions->calculate_RMS(values.peakCurrent);
+    peakVoltage = functions->find_peak(voltages, SIZE);
+    peakCurrent = functions->find_peak(currents, SIZE);
+    voltage = functions->calculate_RMS(peakVoltage);
+    current = functions->calculate_RMS(peakCurrent);
 
     // calculate phase of two signals
-    values.phase = functions->get_phase_difference(values.voltageTriggerTimes, voltageTriggerIndex,
-            values.currentTriggerTimes, currentTriggerIndex);
+    phase = functions->get_phase_difference(voltageTriggerTimes, voltageTriggerIndex,
+            currentTriggerTimes, currentTriggerIndex);
     
     // place holder phase
-    values.pf = functions->calculate_power_factor(values.phase);
-    values.power = functions->calculate_average_power(values.voltage, 
-            values.current, values.pf);
+    pf = functions->calculate_power_factor(phase);
+    power = functions->calculate_average_power(voltage, 
+            current, pf);
     
     // start iterating over the trigger arrays from zero
     // this effectively resets the array
@@ -111,7 +119,7 @@ void stateCalculatePower()
     currentTriggerIndex = 0;
     
 	// reset interrupt handler
-	functions->int_init(values.voltageTriggerTimes, values.currentTriggerTimes, SIZE, functions->get_time);
+	functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
     // new state needed to be added for correct transition
     state = STATE_TRANSMIT_POWER;
 }
@@ -120,13 +128,13 @@ void stateCalculatePower()
 void stateTransmitPower()
 {
     char dataString[16];
-    functions->get_uart_string(values.power, dataString, 'P');
+    functions->get_uart_string(power, dataString, 'P');
     functions->uart_write(dataString);
-	functions->get_uart_string(values.pf, dataString, 'F');
+	functions->get_uart_string(pf, dataString, 'F');
 	functions->uart_write(dataString);
-	functions->get_uart_string(values.voltage, dataString, 'V');
+	functions->get_uart_string(voltage, dataString, 'V');
 	functions->uart_write(dataString);
-	functions->get_uart_string(values.current, dataString, 'I');
+	functions->get_uart_string(current, dataString, 'I');
 	functions->uart_write(dataString);
 
     state = STATE_READ_POWER;

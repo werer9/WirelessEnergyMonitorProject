@@ -16,10 +16,10 @@
 #define BAUD 9600
 
 // pins
-#define CURRENT_PIN 4
-#define VOLTAGE_PIN 5
-#define CURRENT_INTR 2 // port D
-#define VOLTAGE_INTR 3 // port D
+#define CURRENT_PIN 1 // Port C
+#define VOLTAGE_PIN 0 // Port C
+#define CURRENT_INTR 3 // port D
+#define VOLTAGE_INTR 2 // port D
 
 // Using macro for root 2 to save processing power on ATMEGA
 #define ROOT_2 1.414213

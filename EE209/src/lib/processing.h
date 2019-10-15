@@ -10,10 +10,8 @@
 #include "config.h"
 #include <math.h> 
 #include <stdint.h>
+#include <stdio.h>
 
-
-// calculate UBRR value for given BAUD rate
-uint16_t calculateUBRR(uint16_t baud);
 
 // return string in format needed by uart
 void get_uart_string(uint16_t val, char *string, char ident);

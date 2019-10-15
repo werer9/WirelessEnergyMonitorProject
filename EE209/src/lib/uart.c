@@ -6,9 +6,16 @@
  */ 
 #include "uart.h"
 
-// uart init function
-void uart_init(uint16_t ubrr)
+// calculate corrext ubrr
+uint16_t calculateUBRR(uint16_t baud)
 {
+	return (uint16_t)(F_CPU/(16*(unsigned long)baud) - 1);
+}
+
+// uart init function
+void uart_init(uint16_t baud)
+{	
+	uint16_t ubrr = calculateUBRR(baud);
 	// Enable TX and RX
 	UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
 	// set character size to 8-bit

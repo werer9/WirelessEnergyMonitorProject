@@ -4,15 +4,11 @@
 
 #include "processing.h"
 
-// calculate UBRR value for given BAUD rate
-uint16_t calculateUBRR(uint16_t baud)
-{
-	return (uint16_t)(F_CPU/(16*(unsigned long)baud) - 1);
-}
+
 
 void get_uart_string(uint16_t val, char *string, char ident)
 {
-	sprintf(string, "%c=%02d.%02d\n", ident, val/100, val%100);
+	sprintf(string, "%c=%02d.%02d\n", ident, val/1000, val%1000);
 }
 
 // convert adc value to real value
@@ -41,13 +37,13 @@ uint16_t calculateRMS(uint16_t peak)
 }
 
 // get phase difference in degrees
-// TODO: process with level cross trigger times
-// since these are more accuratemake
+// since these are more accurate
 uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1, 
 		uint16_t *crossTimes2, uint8_t size2) 
 {
 	uint16_t phaseDifference = 0;
-	uint16_t Tz, Tp = 0;
+	uint16_t Tz = 0;
+	uint16_t Tp = 0;
 
 	if (size1 < 3 || size2 < 3)
 		return phaseDifference;
@@ -69,11 +65,12 @@ uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1,
 uint16_t calculatePowerFactor(uint16_t phase) 
 {
 	phase *= (PI/180);
-	return (cos(phase) * 100);
+	return (cos(phase) * 1000);
 }
 
 // calculate average power using standard equation
 uint16_t calculateAveragePower(uint16_t Vrms, uint16_t Irms, uint16_t pf)
 {
-	return Vrms * Irms * pf;
+	double p = (Vrms/1000 * Irms/1000 * pf/1000);
+	return (uint16_t)p*1000;
 }
