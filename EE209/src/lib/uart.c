@@ -12,7 +12,7 @@ void get_uart_string(uint16_t val, char *string, char ident)
 	double value = 0;
 	switch (ident) {
 		case 'V':
-			value = (double)val/1000;
+			value = (double)((double)val/1000);
 			if (val % 1000 == 0)
 				sprintf(string, "%c=%04g\n", ident, value);
 			else
@@ -22,14 +22,14 @@ void get_uart_string(uint16_t val, char *string, char ident)
 			sprintf(string, "%c=%04u\n", ident, val);
 			break;
 		case 'F':
-			value = (double)val/1000;
+			value = (double)((double)val/1000);
 			if (val % 1000 == 0)
 				sprintf(string, "%c=%04g\n", ident, value);
 			else
 				sprintf(string, "%c=%05g\n", ident, value);
 			break;
 		case 'P':
-			value = (double)val/1000;
+			value = (double)((double)val/1000);
 			if (val % 1000 == 0)
 				sprintf(string, "%c=%04g\n", ident, value);
 			else

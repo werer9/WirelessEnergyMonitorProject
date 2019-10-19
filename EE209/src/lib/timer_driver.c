@@ -8,9 +8,9 @@
 #include "timer_driver.h"
 
 // Interrupt service routines
-ISR(TIMER1_OVF_vect) {
-	timerOverFlowCount++;
-}
+// ISR(TIMER1_OVF_vect) {
+// 	
+// }
 
 // init timer function
 void timer_init()
@@ -21,7 +21,7 @@ void timer_init()
 	TCCR1B |= (1<<CS12);
 
 	//Enables Timer Overflow interrupt (probably won't need it)
-	TIMSK1 |= (1<<TOIE1);
+	//TIMSK1 |= (1<<TOIE1);
 }
 
 void resetTimer()

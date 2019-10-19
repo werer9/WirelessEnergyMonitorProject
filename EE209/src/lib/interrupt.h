@@ -13,9 +13,9 @@
 
 volatile uint16_t *voltageTriggers;
 volatile uint16_t *currentTriggers;
-uint8_t size;
-uint8_t voltageIndex;
-uint8_t currentIndex;
+volatile uint8_t size;
+volatile uint8_t voltageIndex;
+volatile uint8_t currentIndex;
 uint16_t (*get_time_func)(void);
 
 void enable_interrupts();

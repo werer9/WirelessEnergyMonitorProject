@@ -119,7 +119,7 @@ void stateCalculatePower()
     currentTriggerIndex = 0;
     
 	// reset interrupt handler
-	functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
+	//functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
     // new state needed to be added for correct transition
     state = STATE_TRANSMIT_POWER;
 }

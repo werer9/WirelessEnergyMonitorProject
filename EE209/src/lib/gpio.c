@@ -13,6 +13,6 @@ void io_init()
 	DDRC = 0x00;
 
 	//Set PORTD Pins 1 and 0 as outputs
-	DDRD = 0x00;
-	DDRD |= (1<<PIND0) | (1<<PIND1);
+	//DDRD = 0x00;
+	//DDRD |= (1<<PIND0) | (1<<PIND1);
 }

@@ -47,8 +47,8 @@ uint16_t pf;
 uint16_t power;
 uint16_t voltages[SIZE];
 uint16_t currents[SIZE];
-uint16_t voltageTimes[SIZE];
-uint16_t currentTimes[SIZE];
+//uint16_t voltageTimes[SIZE];
+//uint16_t currentTimes[SIZE];
 uint16_t voltageTriggerTimes[SIZE];
 uint16_t currentTriggerTimes[SIZE];
 
