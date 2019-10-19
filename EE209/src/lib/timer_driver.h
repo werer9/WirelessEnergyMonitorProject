@@ -12,13 +12,10 @@
 #ifndef TIMER_DRIVER_H_
 #define TIMER_DRIVER_H_
 
-volatile uint16_t timerOverFlowCount;
-
 void timer_init();
 void resetTimer();
 uint16_t getTimerCount();
 uint16_t calculateTime(uint16_t scale);
-void resetTimerOverflowCount();
 uint16_t get_time();
 
 

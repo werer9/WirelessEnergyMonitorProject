@@ -10,11 +10,7 @@
 #include "config.h"
 #include <math.h> 
 #include <stdint.h>
-#include <stdio.h>
 
-
-// return string in format needed by uart
-void get_uart_string(uint16_t val, char *string, char ident);
 
 // convert adc value to real value
 uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits);

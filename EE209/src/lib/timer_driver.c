@@ -22,16 +22,12 @@ void timer_init()
 
 	//Enables Timer Overflow interrupt (probably won't need it)
 	TIMSK1 |= (1<<TOIE1);
-	
-	// initialise timer overflow count
-	timerOverFlowCount = 0;
 }
 
 void resetTimer()
 {
 	// clear the timer counter
 	TCNT1 = 0;
-	resetTimerOverflowCount();
 	// resets the timer overflow count
 	//timerOverFlowCount = 0;
 }
@@ -42,18 +38,14 @@ uint16_t getTimerCount()
 	return TCNT1;
 }
 
+// return in us
 uint16_t calculateTime(uint16_t scale)
 {
-	// set scale into time
-	double scaleFactor = scale * 1/F_CPU;
-	uint32_t time = (getTimerCount() * scaleFactor + 65536 * scaleFactor * timerOverFlowCount*100);
-	return (uint16_t)time;
-}
-
-void resetTimerOverflowCount()
-{
-	// reset the overflow count
-	timerOverFlowCount = 0;
+	// set scale into time, convert clock speed from Hz to MHz to scale time to us
+	double step = 1/((double)(F_CPU/1000000)/256);
+	// multiply timer register by value of time step
+	double timeSeconds = step * getTimerCount();
+	return (uint16_t)(timeSeconds);
 }
 
 uint16_t get_time()

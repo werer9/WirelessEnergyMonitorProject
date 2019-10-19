@@ -6,10 +6,6 @@
 
 
 
-void get_uart_string(uint16_t val, char *string, char ident)
-{
-	sprintf(string, "%c=%2.2d.%2.2d\n", ident, val/1000, (val%1000)/10);
-}
 
 // convert adc value to real value
 uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits)
