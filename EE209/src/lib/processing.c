@@ -37,9 +37,9 @@ uint16_t calculateRMS(uint16_t peak)
 uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1, 
 		uint16_t *crossTimes2, uint8_t size2) 
 {
-	uint16_t phaseDifference = 0;
-	uint16_t Tz = 0;
-	uint16_t Tp = 0;
+	int16_t phaseDifference = 0;
+	int16_t Tz = 0;
+	int16_t Tp = 0;
 
 	if (size1 < 3 || size2 < 3)
 		return phaseDifference;
@@ -52,9 +52,9 @@ uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1,
 		Tp = crossTimes2[2] - crossTimes1[2];
 	}
 
-	phaseDifference = 360 * (Tz/Tp);
+	phaseDifference = (int16_t)(360 * (double)(Tz/Tp));
 
-	return phaseDifference;
+	return abs(phaseDifference);
 }
 
 // calculate power factor

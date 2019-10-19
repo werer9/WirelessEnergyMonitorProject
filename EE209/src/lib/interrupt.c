@@ -27,13 +27,18 @@ void disable_interrupts()
 	cli();
 }
 
-void interrupt_init(uint16_t *voltageTriggers, uint16_t *currentTriggers, uint8_t size, uint16_t (*get_time_ptr)(void))
+void interrupt_init(uint16_t *voltageTriggers, uint16_t *currentTriggers, uint8_t arraySize, uint16_t (*get_time_ptr)(void))
 {
 	
 	voltageTriggers = voltageTriggers;
 	currentTriggers = currentTriggers;
-	size = size;
+	size = arraySize;
 	get_time_func = get_time_ptr;
+	
+	// set interrupt edge
+	EICRA |= 0x0F;
+	EIMSK |= 0x03;
+	
 	currentIndex = 0;
 	voltageIndex = 0;
 }

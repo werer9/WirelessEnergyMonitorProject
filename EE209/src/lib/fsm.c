@@ -105,13 +105,11 @@ void stateCalculatePower()
     current = functions->calculate_RMS(peakCurrent);
 
     // calculate phase of two signals
-    phase = functions->get_phase_difference(voltageTriggerTimes, voltageTriggerIndex,
-            currentTriggerTimes, currentTriggerIndex);
+    phase = functions->get_phase_difference(voltageTriggerTimes, SIZE, currentTriggerTimes, SIZE);
     
     // place holder phase
     pf = functions->calculate_power_factor(phase);
-    power = functions->calculate_average_power(voltage, 
-            current, pf);
+    power = functions->calculate_average_power(voltage, current, pf);
     
     // start iterating over the trigger arrays from zero
     // this effectively resets the array
@@ -119,7 +117,7 @@ void stateCalculatePower()
     currentTriggerIndex = 0;
     
 	// reset interrupt handler
-	//functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
+	functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
     // new state needed to be added for correct transition
     state = STATE_TRANSMIT_POWER;
 }
