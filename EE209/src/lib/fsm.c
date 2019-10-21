@@ -66,7 +66,7 @@ void stateInit()
     // init timer
     functions->timer_init();
     // init interrupts
-    functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
+    functions->int_init(voltageTriggerTimes, currentTriggerTimes, TRIGGER_SIZE, functions->get_time);
     // change state on function completion
     state = STATE_READ_POWER;
 }
@@ -75,21 +75,18 @@ void stateInit()
 void stateReadPower()
 {
     // enable interrupts and reset timer
-	functions->timer_reset();
-	//functions->timer_init();
-    functions->enable_interrupts();
+    
     for (int8_t j = 0; j < SIZE; j++) {
 		voltages[j] = functions->read_adc(VOLTAGE_PIN);
-        //voltageTimes[j] = functions->get_time();
         currents[j] = functions->read_adc(CURRENT_PIN);
-        //currentTimes[j] = functions->get_time();
     }
 
+	functions->timer_reset();
+	functions->enable_interrupts();
+	while (functions->get_trigger_index() < TRIGGER_SIZE) {}
+	
     // disable interrupts - prevent the trigger array from overflowing
     functions->disable_interrupts();
-
-    // possible change the implementation to avoid interrupts by setting a 
-    // volatile boolean with an int
     
     // need to add condition for state change
     state = STATE_CALCULATE_POWER;
@@ -105,7 +102,7 @@ void stateCalculatePower()
     current = functions->calculate_RMS(peakCurrent);
 
     // calculate phase of two signals
-    phase = functions->get_phase_difference(voltageTriggerTimes, SIZE, currentTriggerTimes, SIZE);
+    phase = functions->get_phase_difference(voltageTriggerTimes, currentTriggerTimes, TRIGGER_SIZE);
     
     // place holder phase
     pf = functions->calculate_power_factor(phase);
@@ -115,9 +112,10 @@ void stateCalculatePower()
     // this effectively resets the array
     voltageTriggerIndex = 0;
     currentTriggerIndex = 0;
-    
-	// reset interrupt handler
-	functions->int_init(voltageTriggerTimes, currentTriggerTimes, SIZE, functions->get_time);
+	
+	// reset interrupt trigger array index
+	functions->set_trigger_index(voltageTriggerIndex);
+   
     // new state needed to be added for correct transition
     state = STATE_TRANSMIT_POWER;
 }

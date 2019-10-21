@@ -10,7 +10,7 @@
 #include "config.h"
 #include <math.h> 
 #include <stdint.h>
-
+#include <stdlib.h>
 
 // convert adc value to real value
 uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits);
@@ -22,8 +22,8 @@ uint16_t findPeak(uint16_t *samples, uint8_t size);
 uint16_t calculateRMS(uint16_t peak);
 
 // get phase difference in radians
-uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1, 
-		uint16_t *crossTimes2, uint8_t size2);
+uint16_t getPhaseDifference(uint32_t *voltageTriggerTimes,
+		uint32_t *currentTriggerTimes, uint8_t arraySize);
 
 // calculate power factor
 uint16_t calculatePowerFactor(uint16_t phase);

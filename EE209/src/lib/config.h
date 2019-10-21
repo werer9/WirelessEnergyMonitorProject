@@ -27,16 +27,17 @@
 #define PI 3.14159
 
 // array size
-#define SIZE 50
+#define SIZE 100
+#define TRIGGER_SIZE 4
 
 // timer prescaler
 #define TIMER_PRESCALER 256
 
-// range on wave corresponding to 50 points, size*2
+// range on wave corresponding to 100 points, size*2
 #define RANGE SIZE*2
 
 // shunt resistor value for current calculations
-#define SHUNT_VAL 33
+#define SHUNT_VAL 50
 
 // FSM STATES
 #define STATE_INIT 0

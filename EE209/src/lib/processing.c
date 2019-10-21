@@ -34,39 +34,32 @@ uint16_t calculateRMS(uint16_t peak)
 
 // get phase difference in degrees
 // since these are more accurate
-uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1, 
-		uint16_t *crossTimes2, uint8_t size2) 
+uint16_t getPhaseDifference(uint32_t *voltageTriggerTimes,
+		uint32_t *currentTriggerTimes, uint8_t arraySize) 
 {
 	int16_t phaseDifference = 0;
 	int16_t Tz = 0;
 	int16_t Tp = 0;
 
-	if (size1 < 3 || size2 < 3)
-		return phaseDifference;
+	Tz = abs(currentTriggerTimes[0] - voltageTriggerTimes[0]) < abs(currentTriggerTimes[1] - voltageTriggerTimes[1]) ?
+		abs(currentTriggerTimes[0] - voltageTriggerTimes[0]) : abs(currentTriggerTimes[1] - voltageTriggerTimes[1]);
+	Tp = currentTriggerTimes[1] - currentTriggerTimes[0];
 
-	if (crossTimes1[0] > crossTimes2[0]) {
-		Tz = crossTimes2[0] - crossTimes2[2];
-		Tp = crossTimes1[2] - crossTimes2[2];
-	} else if (crossTimes1[0] < crossTimes2[0]) {
-		Tz = crossTimes1[0] - crossTimes1[2];
-		Tp = crossTimes2[2] - crossTimes1[2];
-	}
+	phaseDifference = (uint16_t)((2.0*PI * Tz/Tp) * 1000);
 
-	phaseDifference = (int16_t)(360 * (double)(Tz/Tp));
-
-	return abs(phaseDifference);
+	return (uint16_t)abs(phaseDifference);
 }
 
 // calculate power factor
 uint16_t calculatePowerFactor(uint16_t phase) 
 {
-	phase *= (PI/180);
-	return (cos(phase) * 1000);
+	double phaseRadians = phase/1000.0;
+	return abs(cos(phaseRadians) * 1000);
 }
 
 // calculate average power using standard equation
 uint16_t calculateAveragePower(uint16_t Vrms, uint16_t Irms, uint16_t pf)
 {
-	double p = (Vrms/1000 * Irms/1000 * pf/1000);
+	double p = ((Vrms/1000.0) * (Irms/1000.0) * (pf/1000.0));
 	return (uint16_t)(p*1000);
 }
