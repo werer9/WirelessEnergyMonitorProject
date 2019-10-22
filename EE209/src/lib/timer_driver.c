@@ -8,30 +8,26 @@
 #include "timer_driver.h"
 
 // Interrupt service routines
-ISR(TIMER1_OVF_vect) {
-	timerOverFlowCount++;
-}
+// ISR(TIMER1_OVF_vect) {
+// 	
+// }
 
 // init timer function
 void timer_init()
 {
 	//Sets a 256 prescaler, new Frequency = 62.5kHz
 	//Time Period for 1 count = 0.000016s = 16us
-	//Time Period for 65535 counts = 1.04856s
+	//Time Period for 65535 counts = 1.04s
 	TCCR1B |= (1<<CS12);
 
 	//Enables Timer Overflow interrupt (probably won't need it)
-	TIMSK1 |= (1<<TOIE1);
-	sei();
+	//TIMSK1 |= (1<<TOIE1);
 }
 
 void resetTimer()
 {
 	// clear the timer counter
 	TCNT1 = 0;
-	resetTimerOverflowCount();
-	// resets the timer overflow count
-	//timerOverFlowCount = 0;
 }
 
 uint16_t getTimerCount()
@@ -40,22 +36,19 @@ uint16_t getTimerCount()
 	return TCNT1;
 }
 
-uint16_t calculateTime(uint16_t scale)
+// return in us
+uint32_t calculateTime(uint16_t scale)
 {
-	// set scale into time
-	double scaleFactor = scale * 1/F_CPU;
-	uint32_t time = (uint32_t)(getTimerCount() * scaleFactor + 65536 * scaleFactor * timerOverFlowCount*100);
-	return (uint16_t)time;
+	// set scale into time, convert clock speed from Hz to MHz to scale time to us
+	double step = 1/((double)(F_CPU/1000000)/256);
+	// multiply timer register by value of time step
+	double timeSeconds = step * getTimerCount();
+	return (uint32_t)(timeSeconds);
 }
 
-void resetTimerOverflowCount()
-{
-	// reset the overflow count
-	timerOverFlowCount = 0;
-}
-
-uint16_t get_time()
+uint32_t get_time()
 {
 	// returns the current timer count to the function caller
-	return calculateTime(TIMER_PRESCALER);
+	return getTimerCount();
+	//return calculateTime(TIMER_PRESCALER);
 }

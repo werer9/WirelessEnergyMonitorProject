@@ -16,8 +16,10 @@
 #define BAUD 9600
 
 // pins
-#define CURRENT_PIN 4
-#define VOLTAGE_PIN 5
+#define CURRENT_PIN 4 // Port C
+#define CURRENT_OFFSET 5 // Port C
+#define VOLTAGE_PIN 0 // Port C
+#define VOLTAGE_OFFSET 1 // Port C
 #define CURRENT_INTR 2 // port D
 #define VOLTAGE_INTR 3 // port D
 
@@ -27,16 +29,17 @@
 #define PI 3.14159
 
 // array size
-#define SIZE 50
+#define SIZE 100
+#define TRIGGER_SIZE 4
 
 // timer prescaler
 #define TIMER_PRESCALER 256
 
-// range on wave corresponding to 50 points, size*2
+// range on wave corresponding to 100 points, size*2
 #define RANGE SIZE*2
 
-// shunt resistor value for current calculations
-#define SHUNT_VAL 33
+// shunt resistor value for current calculations (ohms)
+#define SHUNT_VAL 0.5
 
 // FSM STATES
 #define STATE_INIT 0

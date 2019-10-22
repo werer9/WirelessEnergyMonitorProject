@@ -8,8 +8,14 @@
 
 #ifndef UART_H_
 #define UART_H_
+#include "config.h"
 #include <avr/io.h>
+#include <stdio.h>
+#include <util/delay.h>
 
+// calculate UBRR value for given BAUD rate
+void get_uart_string(uint16_t val, char *string, char ident);
+uint16_t calculateUBRR(uint16_t baud);
 void uart_init(uint16_t ubrr);
 void uart_transmit(uint8_t data);
 void uart_write(char *data);

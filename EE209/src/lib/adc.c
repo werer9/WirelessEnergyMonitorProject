@@ -10,8 +10,6 @@
 
 uint16_t read_adc_mv(uint8_t channel)
 {
-	// disable interrupts during conversion
-	cli();
 	// clear ADMUX
 	ADMUX &= 0xF0;
 	// set least significant 4 bits to channel
@@ -24,11 +22,7 @@ uint16_t read_adc_mv(uint8_t channel)
 	// read full 10 bits of ADC registers
 	uint16_t adc_output = ADCW;
 	// convert reading into millivolts
-	uint32_t mv = (uint32_t)adc_output * ((uint32_t)5000/1023);
-	
-	// enable interrupts when conversion is finished
-	sei();
-	return (uint16_t)mv;
+	return adc_output;
 }
 
 void adc_init() 
@@ -39,5 +33,5 @@ void adc_init()
 	// clear channel selection
 	ADMUX &= 0xF0;
 	// enable conversions, scale by system clock by 128
-	ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADSC);
+	ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2);
 }

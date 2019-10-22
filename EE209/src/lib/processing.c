@@ -4,31 +4,46 @@
 
 #include "processing.h"
 
-// calculate UBRR value for given BAUD rate
-uint16_t calculateUBRR(uint16_t baud)
-{
-	return (uint16_t)(F_CPU/(16*(unsigned long)baud) - 1);
-}
-
-void get_uart_string(uint16_t val, char *string, char ident)
-{
-	sprintf(string, "%c=%02d.%02d\n", ident, val/100, val%100);
-}
-
-// convert adc value to real value
-uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits)
-{
-	return (uint16_t)sample/pow(2,bits) * maxVal;
-}
-
 // find peak value of sinusoidal wave
-uint16_t findPeak(uint16_t *samples, uint8_t size)
+uint16_t findPeak(uint16_t *samples, uint8_t size, uint8_t pin, uint16_t (*read_adc_func)(uint8_t))
 {
 	uint16_t peak = 0;
+	uint16_t Ioff;
+	uint16_t Voff;
 	// iterate over samples and use largest value as peak
 	for (uint8_t i = 0; i < size; i++) {
 		if (samples[i] > peak)
 			peak = samples[i];
+	}
+	
+	switch (pin) {
+		case VOLTAGE_PIN:
+			Voff = 0;
+			for (int i = 0; i < 20; i++) {
+				Voff += read_adc_func(VOLTAGE_OFFSET);
+			}
+			Voff /= 20;	
+		
+			peak -= Voff;
+			peak *= 5000/1024;
+			peak *= 28;
+			
+			break;
+		case CURRENT_PIN:
+			Ioff = 0;
+			for (int i = 0; i < 20; i++) {
+				Ioff += read_adc_func(CURRENT_OFFSET);
+			}
+			Ioff /= 20;
+			
+			peak -= Ioff;
+			peak *= 5000/1024;
+			peak /= SHUNT_VAL;
+			peak *= 0.46;
+			
+			break;
+		default:
+			break;
 	}
 	
 	return peak;
@@ -41,39 +56,33 @@ uint16_t calculateRMS(uint16_t peak)
 }
 
 // get phase difference in degrees
-// TODO: process with level cross trigger times
-// since these are more accuratemake
-uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1, 
-		uint16_t *crossTimes2, uint8_t size2) 
+// since these are more accurate
+uint16_t getPhaseDifference(uint32_t *voltageTriggerTimes,
+		uint32_t *currentTriggerTimes, uint8_t arraySize) 
 {
-	uint16_t phaseDifference = 0;
-	uint16_t Tz, Tp = 0;
+	int16_t phaseDifference = 0;
+	int16_t Tz = 0;
+	int16_t Tp = 0;
 
-	if (size1 < 3 || size2 < 3)
-		return phaseDifference;
+	Tz = abs(currentTriggerTimes[0] - voltageTriggerTimes[0]) < abs(currentTriggerTimes[1] - voltageTriggerTimes[1]) ?
+		abs(currentTriggerTimes[0] - voltageTriggerTimes[0]) : abs(currentTriggerTimes[1] - voltageTriggerTimes[1]);
+	Tp = currentTriggerTimes[1] - currentTriggerTimes[0];
 
-	if (crossTimes1[0] > crossTimes2[0]) {
-		Tz = crossTimes2[0] - crossTimes2[2];
-		Tp = crossTimes1[2] - crossTimes2[2];
-	} else if (crossTimes1[0] < crossTimes2[0]) {
-		Tz = crossTimes1[0] - crossTimes1[2];
-		Tp = crossTimes2[2] - crossTimes1[2];
-	}
+	phaseDifference = (uint16_t)((2.0*PI * Tz/Tp) * 1000);
 
-	phaseDifference = 360 * (Tz/Tp);
-
-	return phaseDifference;
+	return (uint16_t)abs(phaseDifference);
 }
 
 // calculate power factor
 uint16_t calculatePowerFactor(uint16_t phase) 
 {
-	phase *= (PI/180);
-	return (cos(phase) * 100);
+	double phaseRadians = phase/1000.0;
+	return abs(cos(phaseRadians) * 1000);
 }
 
 // calculate average power using standard equation
 uint16_t calculateAveragePower(uint16_t Vrms, uint16_t Irms, uint16_t pf)
 {
-	return Vrms * Irms * pf;
+	double p = ((Vrms/1000.0) * (Irms/1000.0) * (pf/1000.0));
+	return (uint16_t)(p*1000);
 }

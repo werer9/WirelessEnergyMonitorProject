@@ -10,26 +10,17 @@
 #include "config.h"
 #include <math.h> 
 #include <stdint.h>
-
-
-// calculate UBRR value for given BAUD rate
-uint16_t calculateUBRR(uint16_t baud);
-
-// return string in format needed by uart
-void get_uart_string(uint16_t val, char *string, char ident);
-
-// convert adc value to real value
-uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits);
+#include <stdlib.h>
 
 // find peak value of sinusoidal wave
-uint16_t findPeak(uint16_t *samples, uint8_t size);
+uint16_t findPeak(uint16_t *samples, uint8_t size, uint8_t pin, uint16_t (*read_adc_func)(uint8_t));
 
 // calculate the rms value from peak value of sinusoid
 uint16_t calculateRMS(uint16_t peak);
 
 // get phase difference in radians
-uint16_t getPhaseDifference(uint16_t *crossTimes1, uint8_t size1, 
-		uint16_t *crossTimes2, uint8_t size2);
+uint16_t getPhaseDifference(uint32_t *voltageTriggerTimes,
+		uint32_t *currentTriggerTimes, uint8_t arraySize);
 
 // calculate power factor
 uint16_t calculatePowerFactor(uint16_t phase);

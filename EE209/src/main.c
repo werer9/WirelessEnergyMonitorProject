@@ -36,6 +36,8 @@ int main(void)
 		.adc_init = adc_init,
 		.timer_init = timer_init,
 		.int_init = interrupt_init,
+		.get_trigger_index = get_index,
+		.set_trigger_index = set_index,
 		.get_uart_string = get_uart_string,
 		.uart_write = uart_write,
 		.disable_interrupts = disable_interrupts,
@@ -54,6 +56,6 @@ int main(void)
 	// init fsm by passing structs to it
 	fsmInit(&funcs);
 	
-	return run();
+	run();
 }
 

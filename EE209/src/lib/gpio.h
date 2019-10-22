@@ -2,7 +2,7 @@
  * gpio.h
  *
  *
- *  Author: Reeve D'Cunha
+ *  Author: Reeve D'Cunha & Caelan Murch
  */ 
 
 #include "config.h"
