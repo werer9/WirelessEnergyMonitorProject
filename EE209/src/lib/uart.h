@@ -11,6 +11,7 @@
 #include "config.h"
 #include <avr/io.h>
 #include <stdio.h>
+#include <util/delay.h>
 
 // calculate UBRR value for given BAUD rate
 void get_uart_string(uint16_t val, char *string, char ident);

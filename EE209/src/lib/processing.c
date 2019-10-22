@@ -4,23 +4,46 @@
 
 #include "processing.h"
 
-
-
-
-// convert adc value to real value
-uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits)
-{
-	return (uint16_t)sample/pow(2,bits) * maxVal;
-}
-
 // find peak value of sinusoidal wave
-uint16_t findPeak(uint16_t *samples, uint8_t size)
+uint16_t findPeak(uint16_t *samples, uint8_t size, uint8_t pin, uint16_t (*read_adc_func)(uint8_t))
 {
 	uint16_t peak = 0;
+	uint16_t Ioff;
+	uint16_t Voff;
 	// iterate over samples and use largest value as peak
 	for (uint8_t i = 0; i < size; i++) {
 		if (samples[i] > peak)
 			peak = samples[i];
+	}
+	
+	switch (pin) {
+		case VOLTAGE_PIN:
+			Voff = 0;
+			for (int i = 0; i < 20; i++) {
+				Voff += read_adc_func(VOLTAGE_OFFSET);
+			}
+			Voff /= 20;	
+		
+			peak -= Voff;
+			peak *= 5000/1024;
+			peak *= 28;
+			
+			break;
+		case CURRENT_PIN:
+			Ioff = 0;
+			for (int i = 0; i < 20; i++) {
+				Ioff += read_adc_func(CURRENT_OFFSET);
+			}
+			Ioff /= 20;
+			
+			peak -= Ioff;
+			peak *= 5000/1024;
+			peak /= SHUNT_VAL;
+			peak *= 0.46;
+			
+			break;
+		default:
+			break;
 	}
 	
 	return peak;

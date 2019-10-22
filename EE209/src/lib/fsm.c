@@ -96,8 +96,8 @@ void stateReadPower()
 void stateCalculatePower()
 {  
     // calculate peak, RMS
-    peakVoltage = functions->find_peak(voltages, SIZE);
-    peakCurrent = functions->find_peak(currents, SIZE);
+    peakVoltage = functions->find_peak(voltages, SIZE, VOLTAGE_PIN, functions->read_adc);
+    peakCurrent = functions->find_peak(currents, SIZE, CURRENT_PIN, functions->read_adc);
     voltage = functions->calculate_RMS(peakVoltage);
     current = functions->calculate_RMS(peakCurrent);
 
@@ -128,7 +128,7 @@ void stateTransmitPower()
     functions->uart_write(dataString);
 	functions->get_uart_string(pf, dataString, 'F');
 	functions->uart_write(dataString);
-	functions->get_uart_string(voltage, dataString, 'V');
+	functions->get_uart_string(peakVoltage, dataString, 'V');
 	functions->uart_write(dataString);
 	functions->get_uart_string(current, dataString, 'I');
 	functions->uart_write(dataString);

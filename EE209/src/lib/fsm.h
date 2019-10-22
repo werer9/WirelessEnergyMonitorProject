@@ -30,7 +30,7 @@ struct functionPointers {
     uint16_t (*read_adc)(uint8_t channel);
     uint32_t (*get_time)(void);
 	void (*timer_reset)(void);
-	uint16_t (*find_peak)(uint16_t *samples, uint8_t size);
+	uint16_t (*find_peak)(uint16_t *samples, uint8_t size, uint8_t pin, uint16_t (*read_adc_func)(uint8_t));
 	uint16_t (*calculate_RMS)(uint16_t peak);
 	uint16_t (*get_phase_difference)(uint32_t *voltageTriggerTimes,
 		uint32_t *currentTriggerTimes, uint8_t arraySize);

@@ -12,11 +12,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-// convert adc value to real value
-uint16_t convertADCValue(uint16_t sample, uint16_t maxVal, uint8_t bits);
-
 // find peak value of sinusoidal wave
-uint16_t findPeak(uint16_t *samples, uint8_t size);
+uint16_t findPeak(uint16_t *samples, uint8_t size, uint8_t pin, uint16_t (*read_adc_func)(uint8_t));
 
 // calculate the rms value from peak value of sinusoid
 uint16_t calculateRMS(uint16_t peak);

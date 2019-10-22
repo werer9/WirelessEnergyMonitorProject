@@ -22,8 +22,7 @@ uint16_t read_adc_mv(uint8_t channel)
 	// read full 10 bits of ADC registers
 	uint16_t adc_output = ADCW;
 	// convert reading into millivolts
-	uint32_t mv = (uint32_t)adc_output * ((uint32_t)5000/1023);
-	return (uint16_t)mv;
+	return adc_output;
 }
 
 void adc_init() 

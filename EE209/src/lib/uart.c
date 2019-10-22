@@ -13,27 +13,18 @@ void get_uart_string(uint16_t val, char *string, char ident)
 	switch (ident) {
 		case 'V':
 			value = (double)((double)val/1000);
-			if (val % 1000 == 0)
-				sprintf(string, "%c=%04g\n", ident, value);
-			else
-				sprintf(string, "%c=%05g\n", ident, value);
+			sprintf(string, "%c=%.4g\n", ident, value);
 			break;
 		case 'I':
 			sprintf(string, "%c=%04u\n", ident, val);
 			break;
 		case 'F':
 			value = (double)((double)val/1000);
-			if (val % 1000 == 0)
-				sprintf(string, "%c=%04g\n", ident, value);
-			else
-				sprintf(string, "%c=%05g\n", ident, value);
+			sprintf(string, "%c=%.4g\n", ident, value);
 			break;
 		case 'P':
 			value = (double)((double)val/1000);
-			if (val % 1000 == 0)
-				sprintf(string, "%c=%04g\n", ident, value);
-			else
-				sprintf(string, "%c=%05g\n", ident, value);
+			sprintf(string, "%c=%.4g\n", ident, value);
 			break;
 	}
 }
@@ -76,6 +67,8 @@ void uart_write(char *data)
 		uart_transmit(data[i]);
 		i++;
 	}
+	
+	_delay_ms(75);
 }
 
 // uart write line function
