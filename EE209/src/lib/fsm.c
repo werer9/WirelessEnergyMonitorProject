@@ -6,7 +6,6 @@
 
 #include "fsm.h"
 
-// initialis fsm with function pointers
 void fsmInit(struct functionPointers *fsmFunctions) 
 {
     functions = fsmFunctions;
@@ -23,7 +22,8 @@ void fsmInit(struct functionPointers *fsmFunctions)
 	pf = 0;
 	power = 0;
 }
-// main fsm function
+
+
 int run()
 { 
     while (1) {
@@ -54,7 +54,6 @@ int run()
     return 0;
 }
 
-// init state
 void stateInit()
 {
     // init uart
@@ -71,7 +70,6 @@ void stateInit()
     state = STATE_READ_POWER;
 }
 
-// read power state
 void stateReadPower()
 {
     // enable interrupts and reset timer
@@ -92,7 +90,6 @@ void stateReadPower()
     state = STATE_CALCULATE_POWER;
 }
 
-// calculate power state
 void stateCalculatePower()
 {  
     // calculate peak, RMS
@@ -120,7 +117,6 @@ void stateCalculatePower()
     state = STATE_TRANSMIT_POWER;
 }
 
-// transmit the power over UART
 void stateTransmitPower()
 {
     char dataString[16];

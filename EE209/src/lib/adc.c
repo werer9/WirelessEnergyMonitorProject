@@ -7,8 +7,7 @@
 
 #include "adc.h"
 
-
-uint16_t read_adc_mv(uint8_t channel)
+uint16_t read_adc(uint8_t channel)
 {
 	// clear ADMUX
 	ADMUX &= 0xF0;
@@ -24,6 +23,7 @@ uint16_t read_adc_mv(uint8_t channel)
 	// convert reading into millivolts
 	return adc_output;
 }
+
 
 void adc_init() 
 {

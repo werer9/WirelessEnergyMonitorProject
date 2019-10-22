@@ -59,22 +59,35 @@ struct functionPointers *functions;
 uint8_t voltageTriggerIndex;
 uint8_t currentTriggerIndex;
 
-// init fsm
+/**
+	\brief Initialise the finite state machine
+	
+	\param fsmFunctions pointer to struct containing all needed function pointers
+	
+	\return void
+*/
 void fsmInit(struct functionPointers *fsmFunctions) ;
 
-// main fsm function
+/**
+	\brief Main FSM function
+	
+	Contains main loop and switched between 4 states define in config.h
+	Returns 1 if main loop fails and 0 if execution completed successfully 
+	
+	\return int Execution return value
+*/
 int run();
 
-// init state
+/// FSM initialisation state
 void stateInit();
 
-// read power state
+/// FSM read power state
 void stateReadPower();
 
-// calculate power state
+/// FSM calculate power state
 void stateCalculatePower();
 
-// transmit the power over UART
+/// FSM transmit power state
 void stateTransmitPower();
 
 #endif /* FSM_H_ */

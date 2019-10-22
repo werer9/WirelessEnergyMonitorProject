@@ -42,7 +42,7 @@ int main(void)
 		.uart_write = uart_write,
 		.disable_interrupts = disable_interrupts,
 		.enable_interrupts = enable_interrupts,
-		.read_adc = read_adc_mv,
+		.read_adc = read_adc,
 		.get_time = get_time,
 		.timer_reset = resetTimer,
 		.find_peak = findPeak,

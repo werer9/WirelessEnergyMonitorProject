@@ -1,0 +1,67 @@
+\hypertarget{structfunctionPointers}{}\section{function\+Pointers Struct Reference}
+\label{structfunctionPointers}\index{function\+Pointers@{function\+Pointers}}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfunctionPointers_af94f83bd94afe19a00641e7e40425c08}\label{structfunctionPointers_af94f83bd94afe19a00641e7e40425c08}} 
+void($\ast$ {\bfseries uart\+\_\+init} )(uint16\+\_\+t baud)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_af23d29fb2811373a53019398100d62f9}\label{structfunctionPointers_af23d29fb2811373a53019398100d62f9}} 
+void($\ast$ {\bfseries io\+\_\+init} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a224da1e6a93bc8f636e104bf6b4d7b71}\label{structfunctionPointers_a224da1e6a93bc8f636e104bf6b4d7b71}} 
+void($\ast$ {\bfseries adc\+\_\+init} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a96464cb44e73378c3744714386aca246}\label{structfunctionPointers_a96464cb44e73378c3744714386aca246}} 
+void($\ast$ {\bfseries timer\+\_\+init} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a70c8720f486d4d6354e5c3ac3997563d}\label{structfunctionPointers_a70c8720f486d4d6354e5c3ac3997563d}} 
+void($\ast$ {\bfseries int\+\_\+init} )(uint32\+\_\+t $\ast$voltage\+Triggers, uint32\+\_\+t $\ast$current\+Triggers, uint8\+\_\+t size, uint32\+\_\+t($\ast$get\+\_\+time)(void))
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a5bc585ab55ed0ff005a7b02edcbec917}\label{structfunctionPointers_a5bc585ab55ed0ff005a7b02edcbec917}} 
+uint8\+\_\+t($\ast$ {\bfseries get\+\_\+trigger\+\_\+index} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a9571591238bfe8a78e8d2deaf29b5ef0}\label{structfunctionPointers_a9571591238bfe8a78e8d2deaf29b5ef0}} 
+void($\ast$ {\bfseries set\+\_\+trigger\+\_\+index} )(uint8\+\_\+t index)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a7180e2a13ae69995cb51a96a6f499caa}\label{structfunctionPointers_a7180e2a13ae69995cb51a96a6f499caa}} 
+void($\ast$ {\bfseries get\+\_\+uart\+\_\+string} )(uint16\+\_\+t val, char $\ast$string, char ident)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_aea87a41b93da211db78258d03c4a9333}\label{structfunctionPointers_aea87a41b93da211db78258d03c4a9333}} 
+void($\ast$ {\bfseries uart\+\_\+write} )(char $\ast$data\+\_\+string)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a873d8ee1c634c5eb394a2c218dd1a06f}\label{structfunctionPointers_a873d8ee1c634c5eb394a2c218dd1a06f}} 
+void($\ast$ {\bfseries disable\+\_\+interrupts} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a0499f9debfd8ef4b18b5ad26d44000cd}\label{structfunctionPointers_a0499f9debfd8ef4b18b5ad26d44000cd}} 
+void($\ast$ {\bfseries enable\+\_\+interrupts} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_af258a8ca9519779533318d35a4c286a6}\label{structfunctionPointers_af258a8ca9519779533318d35a4c286a6}} 
+uint16\+\_\+t($\ast$ {\bfseries read\+\_\+adc} )(uint8\+\_\+t channel)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a1a0e169eb639da35ed3d7a107400c923}\label{structfunctionPointers_a1a0e169eb639da35ed3d7a107400c923}} 
+uint32\+\_\+t($\ast$ {\bfseries get\+\_\+time} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a75ef23fb4cb26814666aa81243d87b90}\label{structfunctionPointers_a75ef23fb4cb26814666aa81243d87b90}} 
+void($\ast$ {\bfseries timer\+\_\+reset} )(void)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_afa1a0cf772683f68808599dafa407f84}\label{structfunctionPointers_afa1a0cf772683f68808599dafa407f84}} 
+uint16\+\_\+t($\ast$ {\bfseries find\+\_\+peak} )(uint16\+\_\+t $\ast$samples, uint8\+\_\+t size, uint8\+\_\+t pin, uint16\+\_\+t($\ast$read\+\_\+adc\+\_\+func)(uint8\+\_\+t))
+\item 
+\mbox{\Hypertarget{structfunctionPointers_ac31f324c049eab23e54529d05712fd1f}\label{structfunctionPointers_ac31f324c049eab23e54529d05712fd1f}} 
+uint16\+\_\+t($\ast$ {\bfseries calculate\+\_\+\+R\+MS} )(uint16\+\_\+t peak)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a122ca001985dbd91c3a5fa74f412254a}\label{structfunctionPointers_a122ca001985dbd91c3a5fa74f412254a}} 
+uint16\+\_\+t($\ast$ {\bfseries get\+\_\+phase\+\_\+difference} )(uint32\+\_\+t $\ast$voltage\+Trigger\+Times, uint32\+\_\+t $\ast$current\+Trigger\+Times, uint8\+\_\+t array\+Size)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a69875834367992d4f9ba37b6a6d43d90}\label{structfunctionPointers_a69875834367992d4f9ba37b6a6d43d90}} 
+uint16\+\_\+t($\ast$ {\bfseries calculate\+\_\+power\+\_\+factor} )(uint16\+\_\+t phase)
+\item 
+\mbox{\Hypertarget{structfunctionPointers_a6c1dcb299823f1c89d5d0f9feea4f0b1}\label{structfunctionPointers_a6c1dcb299823f1c89d5d0f9feea4f0b1}} 
+uint16\+\_\+t($\ast$ {\bfseries calculate\+\_\+average\+\_\+power} )(uint16\+\_\+t Vrms, uint16\+\_\+t Irms, uint16\+\_\+t pf)
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+E\+E209/src/lib/fsm.\+h\end{DoxyCompactItemize}

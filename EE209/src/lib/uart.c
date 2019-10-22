@@ -6,10 +6,12 @@
  */ 
 #include "uart.h"
 
-// get uart string
 void get_uart_string(uint16_t val, char *string, char ident)
 {
 	double value = 0;
+	// determine type of value
+	// all values except for current
+	// are converted to doubles
 	switch (ident) {
 		case 'V':
 			value = (double)((double)val/1000);
@@ -29,13 +31,11 @@ void get_uart_string(uint16_t val, char *string, char ident)
 	}
 }
 
-// calculate corrext ubrr
 uint16_t calculateUBRR(uint16_t baud)
 {
 	return (uint16_t)(F_CPU/(16*(unsigned long)baud) - 1);
 }
 
-// uart init function
 void uart_init(uint16_t baud)
 {	
 	uint16_t ubrr = calculateUBRR(baud);
@@ -49,7 +49,6 @@ void uart_init(uint16_t baud)
 	UBRR0 = ubrr;
 }
 
-// uart transmit function
 void uart_transmit(uint8_t data)
 {
 	// wait until transmitter is ready
@@ -58,8 +57,6 @@ void uart_transmit(uint8_t data)
 	UDR0 = data;
 }
 
-// uart write function
-// write multiple characters at once
 void uart_write(char *data) 
 {
 	int i = 0;
@@ -71,8 +68,6 @@ void uart_write(char *data)
 	_delay_ms(75);
 }
 
-// uart write line function
-// write multiple characters at once on one line
 void uart_write_line(char *data)
 {
 	uart_write(data);

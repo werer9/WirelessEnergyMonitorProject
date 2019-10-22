@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 000010b5  00000000  00000000  00004026  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000dfb  00000000  00000000  000050db  2**0
+  8 .debug_line   00000dfd  00000000  00000000  000050db  2**0
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000004bc  00000000  00000000  00005ed8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000009ab  00000000  00000000  00006394  2**0
+ 10 .debug_str    0000099f  00000000  00000000  00006394  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000e51  00000000  00000000  00006d3f  2**0
+ 11 .debug_loc    00000e51  00000000  00000000  00006d33  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000198  00000000  00000000  00007b90  2**0
+ 12 .debug_ranges 00000198  00000000  00000000  00007b84  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -156,10 +156,10 @@ Disassembly of section .text:
 0000020e <__bad_interrupt>:
      20e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000212 <read_adc_mv>:
-
-
-uint16_t read_adc_mv(uint8_t channel)
+00000212 <read_adc>:
+	@param channel Select the ADC channel to read from
+*/
+uint16_t read_adc(uint8_t channel)
 {
 	// clear ADMUX
 	ADMUX &= 0xF0;
@@ -184,7 +184,7 @@ uint16_t read_adc_mv(uint8_t channel)
 	while (ADCSRA & (1<<ADSC));
      22c:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__TEXT_REGION_LENGTH__+0x7e007a>
      230:	86 fd       	sbrc	r24, 6
-     232:	fc cf       	rjmp	.-8      	; 0x22c <read_adc_mv+0x1a>
+     232:	fc cf       	rjmp	.-8      	; 0x22c <read_adc+0x1a>
 	
 	// read full 10 bits of ADC registers
 	uint16_t adc_output = ADCW;
@@ -1564,10 +1564,10 @@ uint32_t get_time()
      afe:	08 95       	ret
 
 00000b00 <get_uart_string>:
- */ 
-#include "uart.h"
-
-// get uart string
+	@param string String to be used for formatting and UART
+	@param ident Letter identifying which value is being sent
+				 V = Voltage, I = Current, F = Power Factor, P = Average Power
+*/
 void get_uart_string(uint16_t val, char *string, char ident)
 {
      b00:	1f 93       	push	r17
@@ -1725,8 +1725,9 @@ void get_uart_string(uint16_t val, char *string, char ident)
      c1e:	08 95       	ret
 
 00000c20 <calculateUBRR>:
-
-// calculate corrext ubrr
+	
+	@param baud Baud rate
+*/
 uint16_t calculateUBRR(uint16_t baud)
 {
 	return (uint16_t)(F_CPU/(16*(unsigned long)baud) - 1);
@@ -1761,8 +1762,9 @@ uint16_t calculateUBRR(uint16_t baud)
      c58:	08 95       	ret
 
 00000c5a <uart_init>:
-
-// uart init function
+	
+	@param baud Baud rate
+*/
 void uart_init(uint16_t baud)
 {	
 	uint16_t ubrr = calculateUBRR(baud);
@@ -1797,8 +1799,8 @@ void uart_init(uint16_t baud)
      c88:	08 95       	ret
 
 00000c8a <uart_transmit>:
-
-// uart transmit function
+	@param data Character to be transmitted
+*/
 void uart_transmit(uint8_t data)
 {
 	// wait until transmitter is ready
@@ -1812,10 +1814,10 @@ void uart_transmit(uint8_t data)
      c96:	08 95       	ret
 
 00000c98 <uart_write>:
-}
-
-// uart write function
-// write multiple characters at once
+	Uses uart_transmit to send each character in string via UART
+	
+	@param data String to be transmitted
+*/
 void uart_write(char *data) 
 {
      c98:	0f 93       	push	r16
@@ -1832,8 +1834,8 @@ void uart_write(char *data)
      ca8:	0e 94 45 06 	call	0xc8a	; 0xc8a <uart_transmit>
 		i++;
      cac:	21 96       	adiw	r28, 0x01	; 1
-// uart write function
-// write multiple characters at once
+	@param data String to be transmitted
+*/
 void uart_write(char *data) 
 {
 	int i = 0;
